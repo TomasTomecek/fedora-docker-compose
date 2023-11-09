@@ -1,0 +1,38 @@
+---
+downstream_package_name: docker-compose
+upstream_package_name: docker-compose
+upstream_project_url: https://github.com/TomasTomecek/fedora-docker-compose.git
+specfile_path: fedora/docker-compose.spec
+
+actions:
+  create-archive:
+    - "python3 -m build --sdist --outdir ."
+    - "sh -c 'echo docker-compose-$(python3 setup.py --version).tar.gz'"
+  get-current-version:
+    - "python3 setup.py --version"
+
+srpm_build_deps:
+  - python3-build
+
+jobs:
+  - job: propose_downstream
+    trigger: release
+    dist_git_branches:
+      - fedora-rawhide
+
+  - job: copr_build
+    trigger: pull_request
+    targets:
+      - fedora-all
+
+  # downstream automation:
+  - job: koji_build
+    trigger: commit
+    allowed_pr_authors: ["packit", "ttomecek"]
+    dist_git_branches:
+      - fedora-all
+
+  - job: bodhi_update
+    trigger: commit
+    dist_git_branches:
+      - fedora-branched
