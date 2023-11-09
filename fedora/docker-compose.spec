@@ -1,13 +1,12 @@
+%global         gittag 1.29.2
 Name:           docker-compose
 Version:        1.29.2
 Release:        10%{?dist}
 Summary:        Multi-container orchestration for Docker
 License:        ASL 2.0
-URL:            https://github.com/docker/compose
-Source0:        %pypi_source
+URL:            https://github.com/TomasTomecek/fedora-docker-compose
+Source:         https://github.com/TomasTomecek/fedora-docker-compose/archive/%{gittag}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
-
-Patch:          pytest-7.2-compatibility.patch
 
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
