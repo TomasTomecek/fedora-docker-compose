@@ -2,8 +2,8 @@ import contextlib
 import functools
 import json
 import logging
-import pipes
 import re
+import shlex
 import subprocess
 import sys
 from distutils.spawn import find_executable
@@ -1579,7 +1579,7 @@ def call_docker(args, dockeropts, environment):
         )
 
     args = [executable_path] + tls_options + args
-    log.debug(" ".join(map(pipes.quote, args)))
+    log.debug(" ".join(map(shlex.quote, args)))
 
     filtered_env = {k: v for k, v in environment.items() if v is not None}
 
